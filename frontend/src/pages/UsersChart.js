@@ -5,7 +5,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Select, MenuItem, Box, Typography } from '@mui/material';
 
-// Register the components needed for Bar Chart
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
 const UsersChart = () => {
@@ -13,17 +12,17 @@ const UsersChart = () => {
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState('');
 
-  // Fetch data when the component mounts
+ 
   useEffect(() => {
     axios.get('http://localhost:8081/users')
       .then(response => {
         const data = response.data;
 
-        // Extract unique years
+       
         const availableYears = [...new Set(data.map(item => item.Year))];
         setYears(availableYears);
 
-        // Set the default selected year
+       
         if (availableYears.length > 0) {
           setSelectedYear(availableYears[0]);
         }
@@ -31,17 +30,17 @@ const UsersChart = () => {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  // Fetch data for the selected year and set chart data
+ 
   useEffect(() => {
     if (selectedYear) {
       axios.get('http://localhost:8081/users')
         .then(response => {
           const data = response.data;
 
-          // Filter data for the selected year
+       
           const filteredData = data.filter(item => item.Year === selectedYear);
 
-          // Prepare chart data
+         
           const labels = filteredData.map(item => item.Month);
           const users = filteredData.map(item => item.Users);
 
@@ -65,7 +64,7 @@ const UsersChart = () => {
     }
   }, [selectedYear]);
 
-  // Handle year change
+ 
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
   };

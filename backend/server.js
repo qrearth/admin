@@ -38,6 +38,16 @@ app.get('/bottle', (req, res) => {
     });
 });
 
+app.get('/daily_update', (req, res) => {
+    const sql = "SELECT * FROM daily_update";
+    db.query(sql, (err, data) => {
+        if (err) return res.json(err);
+        return res.json(data);
+    });
+});
+
+
+
 
 app.get('/', (req, res) => {
     return res.json("From Backend");

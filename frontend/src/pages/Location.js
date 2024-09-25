@@ -5,7 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Select, MenuItem, Box, Typography, FormControl, InputLabel } from '@mui/material';
 
-// Register Chart.js components
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
 const Location = () => {
@@ -13,17 +13,17 @@ const Location = () => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
 
-  // Fetch data when the component mounts
+ 
   useEffect(() => {
     axios.get('http://localhost:8081/bottle')
       .then(response => {
         const data = response.data;
 
-        // Extract unique locations
+      
         const availableLocations = [...new Set(data.map(item => item.Location))];
         setLocations(availableLocations);
 
-        // Set the default selected location
+        
         if (availableLocations.length > 0) {
           setSelectedLocation(availableLocations[0]);
         }
@@ -31,25 +31,25 @@ const Location = () => {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  // Fetch data for the selected location and set chart data
+ 
   useEffect(() => {
     if (selectedLocation) {
       axios.get('http://localhost:8081/bottle')
         .then(response => {
           const data = response.data;
 
-          // Filter data for the selected location
+          
           const filteredData = data.find(item => item.Location === selectedLocation);
 
           if (filteredData) {
-            // Prepare chart data
+         
             setChartData({
               labels: ['Small', 'Medium', 'Large'],
               datasets: [
                 {
                   label: `Bottle Sizes for ${selectedLocation}`,
                   data: [filteredData.Small, filteredData.Medium, filteredData.Large],
-                  backgroundColor: ['#4CAF50', '#FFC107', '#00BCD4'], // New set of colors
+                  backgroundColor: ['#4CAF50', '#FFC107', '#00BCD4'], 
                   borderColor: '#000000',
                   borderWidth: 1
                 }
